@@ -1,8 +1,10 @@
 import Link from "next/link";
+import ImagePlaceholder from "@/components/ImagePlaceholder";
 
 export default function ServiceCard({ service }) {
   return (
     <article className="card">
+      <ImagePlaceholder label={`${service.name} photo`} ratio="wide" />
       <span className="tag">{service.category.replace(/_/g, " ")}</span>
       <h3>{service.name}</h3>
       <p>{service.summary}</p>

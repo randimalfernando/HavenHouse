@@ -1,36 +1,52 @@
 /* ---------------------------------------------------------------------
-   Design tokens
-   Palette: warm, calm, non-clinical. The alert colour is reserved
-   exclusively for crisis/safety moments so it reads as meaningfully
-   different from everyday UI.
+   Design tokens — dark, cooler theme.
+   Palette: deep navy/indigo base with a cool violet-blue accent for
+   interactive elements (buttons, links, nav). The alert colour stays
+   warm and is reserved exclusively for crisis/safety moments, so it
+   still reads as meaningfully different from everyday UI even against
+   a dark background — this matters more, not less, in a dark theme.
    Type: Fraunces (display, used with restraint) + Atkinson Hyperlegible
    (body/UI — purpose-built for reading accessibility).
-   Signature motif: "the steady light" — a soft beacon glow used at
-   trust/safety touchpoints (hero, crisis banner, chat launcher).
+   Signature motif: "the steady light" — a warm beacon glow (kept warm
+   on purpose) used at trust/safety touchpoints, now reading literally
+   as a light in the dark against the cool navy background.
 --------------------------------------------------------------------- */
 
 :root {
-  --color-sand: #f5f1e8;
-  --color-sand-deep: #ece5d4;
-  --color-sage: #6e8b74;
-  --color-sage-deep: #4c6350;
-  --color-teal-ink: #263a3e;
-  --color-clay: #c97c4f;
-  --color-alert: #a8401f;
-  --color-alert-bg: #fbe9e2;
+  /* Page background + elevation */
+  --color-bg: #10111a;
+  --color-surface: #191b28;
+  --color-sand: #e7e9f7;       /* light text-on-dark (footer, etc.) */
+  --color-sand-deep: #2a2d40;  /* subtle borders / secondary surfaces */
+
+  /* Cool interactive accent (indigo/violet) */
+  --color-sage: #9a9df9;
+  --color-sage-deep: #5b5ff0;
+
+  /* Ink: main readable text colour (light, for dark bg) */
+  --color-teal-ink: #eceefa;
+  --color-ink-deep: #0a0b12;   /* near-black, for footer/chat-header bg */
+
+  /* Warm "beacon" accent — kept warm deliberately for contrast + meaning */
+  --color-clay: #ffb27a;
+
+  /* Crisis/safety — warm, high-contrast, reserved */
+  --color-alert: #ffab7d;
+  --color-alert-bg: #3a1a10;
+
   --color-white: #ffffff;
 
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-body: var(--font-atkinson), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   --radius-md: 14px;
   --radius-lg: 22px;
   --radius-full: 999px;
 
-  --shadow-soft: 0 8px 24px rgba(38, 58, 62, 0.08);
+  --shadow-soft: 0 8px 28px rgba(0, 0, 0, 0.35);
   --max-width: 1120px;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * {
@@ -56,7 +72,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-sand);
+  background: var(--color-bg);
   color: var(--color-teal-ink);
   font-family: var(--font-body);
   font-size: 1.0625rem;
@@ -79,7 +95,7 @@ h3 { font-size: 1.25rem; }
 p { margin: 0 0 1em 0; }
 
 a {
-  color: var(--color-sage-deep);
+  color: var(--color-sage);
 }
 
 a:focus-visible,
@@ -96,7 +112,7 @@ textarea:focus-visible,
   position: absolute;
   left: -999px;
   top: auto;
-  background: var(--color-white);
+  background: var(--color-surface);
   color: var(--color-teal-ink);
   padding: 0.75rem 1.25rem;
   border-radius: var(--radius-md);
@@ -139,17 +155,17 @@ textarea:focus-visible,
   background: var(--color-sage-deep);
   color: var(--color-white);
 }
-.btn-primary:hover { background: var(--color-teal-ink); }
+.btn-primary:hover { background: var(--color-ink-deep); }
 
 .btn-secondary {
   background: transparent;
-  color: var(--color-sage-deep);
+  color: var(--color-sage);
   border-color: var(--color-sage-deep);
 }
 .btn-secondary:hover { background: var(--color-sand-deep); }
 
 .btn-quiet {
-  background: var(--color-white);
+  background: var(--color-surface);
   color: var(--color-teal-ink);
   border-color: var(--color-sand-deep);
 }
@@ -157,7 +173,7 @@ textarea:focus-visible,
 /* ---------------- Header / Nav ---------------- */
 
 .site-header {
-  background: var(--color-white);
+  background: var(--color-surface);
   border-bottom: 1px solid var(--color-sand-deep);
   position: sticky;
   top: 0;
@@ -217,7 +233,7 @@ textarea:focus-visible,
   font-weight: 700;
   font-size: 0.98rem;
 }
-.site-nav a:hover { color: var(--color-sage-deep); }
+.site-nav a:hover { color: var(--color-sage); }
 
 @media (min-width: 900px) {
   .site-nav { display: flex; align-items: center; }
@@ -260,7 +276,7 @@ textarea:focus-visible,
 
 .crisis-banner {
   background: var(--color-alert-bg);
-  border-bottom: 1px solid #f0c9b8;
+  border-bottom: 1px solid #5a2c1c;
   color: var(--color-alert);
   font-weight: 700;
 }
@@ -287,12 +303,43 @@ textarea:focus-visible,
 
 .hero {
   padding: 3rem 0 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background glow — cool indigo orbs, purely decorative,
+   sit behind all content (z-index 0) and are hidden from screen readers. */
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.35;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero::before {
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(circle, var(--color-sage-deep) 0%, transparent 72%);
+  top: -160px;
+  right: -120px;
+}
+.hero::after {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, var(--color-sage) 0%, transparent 72%);
+  bottom: -140px;
+  right: 220px;
 }
 
 .hero__inner {
   display: grid;
   gap: 2.5rem;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 900px) {
@@ -305,7 +352,7 @@ textarea:focus-visible,
   display: inline-block;
   font-weight: 800;
   letter-spacing: 0.02em;
-  color: var(--color-sage-deep);
+  color: var(--color-sage);
   margin-bottom: 0.75rem;
 }
 
@@ -325,6 +372,13 @@ textarea:focus-visible,
   box-shadow: var(--shadow-soft);
 }
 
+.about-grid {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 800px) {
+  .about-grid { grid-template-columns: 1.1fr 0.9fr; }
+}
+
 /* ---------------- Cards / grids ---------------- */
 
 .section {
@@ -332,7 +386,7 @@ textarea:focus-visible,
 }
 
 .section-quiet {
-  background: var(--color-white);
+  background: var(--color-surface);
 }
 
 .grid {
@@ -352,7 +406,7 @@ textarea:focus-visible,
 }
 
 .card {
-  background: var(--color-white);
+  background: var(--color-surface);
   border: 1px solid var(--color-sand-deep);
   border-radius: var(--radius-md);
   padding: 1.5rem;
@@ -367,14 +421,14 @@ textarea:focus-visible,
   margin-top: auto;
   font-weight: 800;
   text-decoration: none;
-  color: var(--color-sage-deep);
+  color: var(--color-sage);
 }
 
 .tag {
   display: inline-block;
   font-size: 0.78rem;
   font-weight: 800;
-  color: var(--color-sage-deep);
+  color: var(--color-sage);
   background: var(--color-sand-deep);
   padding: 0.2rem 0.65rem;
   border-radius: var(--radius-full);
@@ -443,7 +497,7 @@ textarea:focus-visible,
   padding: 0.75rem 0.9rem;
   border: 2px solid var(--color-sand-deep);
   border-radius: var(--radius-md);
-  background: var(--color-white);
+  background: var(--color-surface);
 }
 
 .form-error {
@@ -460,7 +514,7 @@ textarea:focus-visible,
 /* ---------------- Footer ---------------- */
 
 .site-footer {
-  background: var(--color-teal-ink);
+  background: var(--color-ink-deep);
   color: var(--color-sand);
   padding: 3rem 0 2rem;
   margin-top: 2rem;
@@ -534,7 +588,7 @@ textarea:focus-visible,
   z-index: 210;
   width: min(380px, calc(100vw - 2rem));
   max-height: min(640px, calc(100vh - 2rem));
-  background: var(--color-white);
+  background: var(--color-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
   display: flex;
@@ -544,7 +598,7 @@ textarea:focus-visible,
 }
 
 .chat-window__header {
-  background: var(--color-teal-ink);
+  background: var(--color-ink-deep);
   color: var(--color-white);
   padding: 1rem 1.1rem;
   display: flex;
@@ -588,7 +642,7 @@ textarea:focus-visible,
 }
 
 .chat-bubble--assistant {
-  background: var(--color-sand);
+  background: var(--color-sand-deep);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
 }
@@ -617,9 +671,9 @@ textarea:focus-visible,
 }
 
 .chat-quick-reply {
-  background: var(--color-white);
+  background: var(--color-surface);
   border: 2px solid var(--color-sage-deep);
-  color: var(--color-sage-deep);
+  color: var(--color-sage);
   border-radius: var(--radius-full);
   padding: 0.5rem 0.9rem;
   font-weight: 700;
@@ -665,3 +719,37 @@ textarea:focus-visible,
   opacity: 0.65;
   padding: 0.4rem 1rem 0.8rem;
 }
+
+/* ---------------- Image placeholders ----------------
+   Reserved spots for real photography later. Swap for a real <img>/
+   next/image once assets are supplied — these are intentionally plain
+   so nobody mistakes them for finished content. */
+
+.image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  border: 2px dashed var(--color-sand-deep);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-sage);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.image-placeholder svg { opacity: 0.75; }
+
+.image-placeholder span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  opacity: 0.85;
+  max-width: 24ch;
+}
+
+.image-placeholder--wide { aspect-ratio: 16 / 9; }
+.image-placeholder--square { aspect-ratio: 1; }
+.image-placeholder--portrait { aspect-ratio: 3 / 4; }
+.image-placeholder--banner { aspect-ratio: 21 / 9; }

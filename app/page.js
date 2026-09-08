@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ServiceCard from "@/components/ServiceCard";
+import ImagePlaceholder from "@/components/ImagePlaceholder";
 import { getPublishedServices } from "@/content/services";
 import { getPublishedResources } from "@/content/resources";
 import { siteConfig } from "@/lib/siteConfig";
@@ -71,13 +72,18 @@ export default function HomePage() {
       </section>
 
       <section className="section">
-        <div className="container">
-          <h2>About Haven House</h2>
-          <p style={{ maxWidth: "60ch" }}>
-            [PLACEHOLDER] A short "about" summary for the homepage, with a link to the full About
-            page.
-          </p>
-          <Link href="/about" className="btn btn-secondary">More about us</Link>
+        <div className="container" style={{ display: "grid", gap: "2rem", alignItems: "center" }}>
+          <div style={{ display: "grid", gap: "2rem" }} className="about-grid">
+            <div>
+              <h2>About Haven House</h2>
+              <p style={{ maxWidth: "60ch" }}>
+                [PLACEHOLDER] A short "about" summary for the homepage, with a link to the full
+                About page.
+              </p>
+              <Link href="/about" className="btn btn-secondary">More about us</Link>
+            </div>
+            <ImagePlaceholder label="Haven House team or space photo" ratio="wide" />
+          </div>
         </div>
       </section>
 
@@ -87,6 +93,7 @@ export default function HomePage() {
           <div className="grid grid-cols-services">
             {resources.map((r) => (
               <article className="card" key={r.id}>
+                <ImagePlaceholder label={`${r.title} image`} ratio="wide" />
                 <h3>{r.title}</h3>
                 {r.type === "external_link" ? (
                   <a href={r.url} target="_blank" rel="noreferrer">Visit resource ↗</a>
