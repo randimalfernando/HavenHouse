@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/lib/siteConfig";
 
 export default function SiteFooter() {
@@ -6,7 +7,10 @@ export default function SiteFooter() {
     <footer className="site-footer">
       <div className="container footer-grid">
         <div>
-          <h4>{siteConfig.orgName}</h4>
+          <span className="logo-chip logo-chip--footer">
+            <Image src="/haven-house-icon.png" alt={`${siteConfig.orgName} logo`} width={44} height={38} />
+          </span>
+          <h4 style={{ marginTop: "0.75rem" }}>{siteConfig.orgName}</h4>
           <p>{siteConfig.suburb}</p>
           <p>{siteConfig.address}</p>
         </div>

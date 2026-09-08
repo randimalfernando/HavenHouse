@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { siteConfig } from "@/lib/siteConfig";
 
@@ -20,7 +21,15 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="container site-header__inner">
         <Link href="/" className="site-header__logo">
-          <span className="beacon-dot beacon-dot--pulse" aria-hidden="true" />
+          <span className="logo-chip">
+            <Image
+              src="/haven-house-icon.png"
+              alt=""
+              width={40}
+              height={35}
+              priority
+            />
+          </span>
           {siteConfig.orgName}
         </Link>
 
