@@ -17,8 +17,7 @@ export default function HomePage() {
             <span className="hero__eyebrow">{siteConfig.orgName} · {siteConfig.suburb}</span>
             <h1>A steady place to find the right support.</h1>
             <p style={{ fontSize: "1.15rem", maxWidth: "48ch" }}>
-              [PLACEHOLDER] A short, warm sentence describing what Haven House does, written in
-              Haven House's own voice.
+              Haven House Safe Service Navigation Assistant helps users find relevant services, view basic eligibility information, and get answers to common questions. If a crisis or safety concern is detected, the chatbot stops normal guidance and displays the approved Haven House contact number.
             </p>
             <div className="hero__actions">
               <Link href="/find-support" className="btn btn-primary">Find Support</Link>
