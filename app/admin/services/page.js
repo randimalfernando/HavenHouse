@@ -13,11 +13,11 @@ export default async function AdminServicesPage() {
       <p>Choose a category to manage its services.</p>
       <ul style={{ marginTop: "1rem" }}>
         <li><Link href="/admin/services/hh-kids">HH Kids</Link></li>
-        <li>Crisis Line — coming soon</li>
+        <li><Link href="/admin/services/crisis-line">Crisis Line</Link></li>
         <li><Link href="/admin/services/accommodation">Accommodation</Link></li>
         <li><Link href="/admin/services/jobs-program">Jobs Program</Link></li>
-        <li>Social Work — coming soon</li>
-        <li>Psychological Support — coming soon</li>
+        <li><Link href="/admin/services/social-work">Social Work</Link></li>
+        <li><Link href="/admin/services/psychological-support">Psychological Support</Link></li>        
         <li>Antisemitism Resources — coming soon</li>
         <li>Chaplaincy — coming soon</li>
         <li>NDIS — coming soon</li>
