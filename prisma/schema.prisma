@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement()) @map("admin_id")
+  firstName    String   @map("first_name") @db.VarChar(100)
+  lastName     String   @map("last_name") @db.VarChar(100)
+  email        String   @unique @db.VarChar(80)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  registeredBy      Int?    @map("registered_by")
+  registeredByAdmin Admin?  @relation("AdminRegistrations", fields: [registeredBy], references: [id])
+  registeredAdmins  Admin[] @relation("AdminRegistrations")
+
+  @@map("admin")
+}
+
+model Location {
+  id          Int       @id @default(autoincrement()) @map("location_id")
+  addressLine String    @map("address_line") @db.VarChar(255)
+  suburb      String    @db.VarChar(100)
+  postalCode  String    @map("postal_code") @db.VarChar(50)
+  services    Service[]
+
+  @@map("location")
+}
+
+model Service {
+  id           Int      @id @default(autoincrement()) @map("service_id")
+  serviceName  String   @map("service_name") @db.VarChar(150)
+  description  String?  @db.VarChar(500)
+  contactPhone String?  @map("contact_phone") @db.VarChar(20)
+  contactEmail String?  @map("contact_email") @db.VarChar(80)
+  locationId   Int      @map("location_id")
+  location     Location @relation(fields: [locationId], references: [id])
+
+  hhKids        HhKidsService?
+  jobsProgram   JobsProgramService?
+  socialWork    SocialWorkService?
+  accommodation AccommodationService?
+  psychological PsychologicalService?
+  crisisLine    CrisisLineService?
+  antisemitism  AntisemitismResourceService?
+  chaplaincy    ChaplaincyService?
+  ndis          NdisService?
+
+  @@map("service_details")
+}
+
+model HhKidsService {
+  serviceId   Int     @id @map("service_id")
+  service     Service @relation(fields: [serviceId], references: [id])
+  programType String  @map("program_type") @db.VarChar(150)
+
+  @@map("hh_kids_service")
+}
+
+model JobsProgramService {
+  serviceId             Int     @id @map("service_id")
+  service                Service @relation(fields: [serviceId], references: [id])
+  durationWeeks          Int     @map("duration_weeks")
+  certificationProvided  Boolean @map("certification_provided")
+
+  @@map("jobs_program_service")
+}
+
+model SocialWorkService {
+  serviceId       Int     @id @map("service_id")
+  service         Service @relation(fields: [serviceId], references: [id])
+  walkInAvailable Boolean @map("walk_in_available")
+
+  @@map("social_work_service")
+}
+
+model AccommodationService {
+  serviceId         Int     @id @map("service_id")
+  service           Service @relation(fields: [serviceId], references: [id])
+  accommodationType String  @db.VarChar(100) @map("accommodation_type")
+  capacity          Int
+
+  @@map("accommodation_service")
+}
+
+model PsychologicalService {
+  serviceId      Int     @id @map("service_id")
+  service        Service @relation(fields: [serviceId], references: [id])
+  specialisation String  @db.VarChar(150)
+
+  @@map("psychological_service")
+}
+
+model CrisisLineService {
+  serviceId          Int     @id @map("service_id")
+  service            Service @relation(fields: [serviceId], references: [id])
+  languagesSupported String  @map("languages_supported") @db.VarChar(50)
+
+  @@map("crisis_line_service")
+}
+
+model AntisemitismResourceService {
+  serviceId Int     @id @map("service_id")
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  @@map("antisemitism_resource_service")
+}
+
+model ChaplaincyService {
+  serviceId        Int     @id @map("service_id")
+  service          Service @relation(fields: [serviceId], references: [id])
+  languagesOffered String  @map("languages_offered") @db.VarChar(50)
+
+  @@map("chaplaincy_service")
+}
+
+model NdisService {
+  serviceId              Int     @id @map("service_id")
+  service                Service @relation(fields: [serviceId], references: [id])
+  ndisRegistrationNumber String  @map("ndis_registration_number") @db.VarChar(50)
+
+  @@map("ndis_service")
+}
