@@ -57,51 +57,48 @@ export default function JobsProgramForm({ mode, serviceId, initialData }) {
     }
   }
 
-  return (
-    <div className="card" style={{ maxWidth: 560 }}>
+    return (
+    <div className="card" style={{ maxWidth: 820 }}>
       <form onSubmit={handleSubmit} noValidate>
-        <div className="form-field">
-          <label htmlFor="serviceName">Service name *</label>
-          <input id="serviceName" type="text" value={values.serviceName} onChange={(e) => update("serviceName", e.target.value)} required />
-        </div>
-        <div className="form-field">
-          <label htmlFor="description">Description</label>
-          <textarea id="description" rows={3} value={values.description} onChange={(e) => update("description", e.target.value)} />
-        </div>
-        <div className="form-field">
-          <label htmlFor="contactPhone">Contact phone</label>
-          <input id="contactPhone" type="text" value={values.contactPhone} onChange={(e) => update("contactPhone", e.target.value)} />
-        </div>
-        <div className="form-field">
-          <label htmlFor="contactEmail">Contact email</label>
-          <input id="contactEmail" type="email" value={values.contactEmail} onChange={(e) => update("contactEmail", e.target.value)} />
-        </div>
-        <div className="form-field">
-          <label htmlFor="addressLine">Address line *</label>
-          <input id="addressLine" type="text" value={values.addressLine} onChange={(e) => update("addressLine", e.target.value)} required />
-        </div>
-        <div className="form-field">
-          <label htmlFor="suburb">Suburb *</label>
-          <input id="suburb" type="text" value={values.suburb} onChange={(e) => update("suburb", e.target.value)} required />
-        </div>
-        <div className="form-field">
-          <label htmlFor="postalCode">Postal code *</label>
-          <input id="postalCode" type="text" value={values.postalCode} onChange={(e) => update("postalCode", e.target.value)} required />
-        </div>
-        <div className="form-field">
-          <label htmlFor="durationWeeks">Duration (weeks) *</label>
-          <input id="durationWeeks" type="number" min="1" step="1" value={values.durationWeeks} onChange={(e) => update("durationWeeks", e.target.value)} required />
-        </div>
-        <div className="form-field form-field--checkbox">
-          <label htmlFor="certificationProvided">
-            <input
-              id="certificationProvided"
-              type="checkbox"
-              checked={values.certificationProvided}
-              onChange={(e) => update("certificationProvided", e.target.checked)}
-            />
-            Certification provided on completion
-          </label>
+        <div className="form-grid">
+          <div className="form-field form-grid__full">
+            <label htmlFor="serviceName">Service name *</label>
+            <input id="serviceName" type="text" value={values.serviceName} onChange={(e) => update("serviceName", e.target.value)} required />
+          </div>
+          <div className="form-field form-grid__full">
+            <label htmlFor="description">Description</label>
+            <textarea id="description" rows={2} value={values.description} onChange={(e) => update("description", e.target.value)} />
+          </div>
+          <div className="form-field">
+            <label htmlFor="contactPhone">Contact phone</label>
+            <input id="contactPhone" type="text" value={values.contactPhone} onChange={(e) => update("contactPhone", e.target.value)} />
+          </div>
+          <div className="form-field">
+            <label htmlFor="contactEmail">Contact email</label>
+            <input id="contactEmail" type="email" value={values.contactEmail} onChange={(e) => update("contactEmail", e.target.value)} />
+          </div>
+          <div className="form-field form-grid__full">
+            <label htmlFor="addressLine">Address line *</label>
+            <input id="addressLine" type="text" value={values.addressLine} onChange={(e) => update("addressLine", e.target.value)} required />
+          </div>
+          <div className="form-field">
+            <label htmlFor="suburb">Suburb *</label>
+            <input id="suburb" type="text" value={values.suburb} onChange={(e) => update("suburb", e.target.value)} required />
+          </div>
+          <div className="form-field">
+            <label htmlFor="postalCode">Postal code *</label>
+            <input id="postalCode" type="text" value={values.postalCode} onChange={(e) => update("postalCode", e.target.value)} required />
+          </div>
+          <div className="form-field">
+            <label htmlFor="durationWeeks">Duration (weeks) *</label>
+            <input id="durationWeeks" type="number" min="1" step="1" value={values.durationWeeks} onChange={(e) => update("durationWeeks", e.target.value)} required />
+          </div>
+          <div className="form-field form-field--checkbox" style={{ justifyContent: "flex-end" }}>
+            <label htmlFor="certificationProvided">
+              <input id="certificationProvided" type="checkbox" checked={values.certificationProvided} onChange={(e) => update("certificationProvided", e.target.checked)} />
+              Certification provided on completion
+            </label>
+          </div>
         </div>
 
         <button className="btn btn-primary" type="submit" disabled={submitting}>

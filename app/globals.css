@@ -501,6 +501,20 @@ textarea:focus-visible,
   margin-bottom: 1.1rem;
 }
 
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 1.5rem;
+}
+
+.form-grid__full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
 .form-field label {
   font-weight: 700;
 }
