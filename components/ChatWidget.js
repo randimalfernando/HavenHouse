@@ -45,13 +45,17 @@ export default function ChatWidget() {
     setIsOpen((v) => !v);
   }
 
-  async function sendToServer({ message, intentHint }) {
+  async function sendToServer({ message, intentHint, historyBefore }) {
     setLoading(true);
     try {
+      const history = historyBefore
+        .filter((m) => m.role === "user" || m.role === "assistant")
+        .map((m) => ({ role: m.role, content: m.content }));
+
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, intentHint }),
+        body: JSON.stringify({ message, intentHint, history }),
       });
       const data = await res.json();
       handleResponse(data);
@@ -96,22 +100,31 @@ export default function ChatWidget() {
       return;
     }
 
-    if (data.type === "fallback") {
-      setMessages((prev) => [...prev, makeMessage("assistant", data.message)]);
-      return;
-    }
+    if (data.type === "fallback" || data.type === "assistant") {
+  setMessages((prev) => [...prev, makeMessage("assistant", data.message)]);
+  return;
+}
 
-    setMessages((prev) => [
-      ...prev,
-      makeMessage("assistant", "Sorry, I couldn't process that. Please try again."),
-    ]);
+if (data.type === "error") {
+  setMessages((prev) => [
+    ...prev,
+    makeMessage("assistant", data.message || "Something went wrong on our end. Please try again."),
+  ]);
+  return;
+}
+
+setMessages((prev) => [
+  ...prev,
+  makeMessage("assistant", "Sorry, I couldn't process that. Please try again."),
+]);
   }
 
   function handleQuickReply(option) {
     if (locked) return;
+    const historyBefore = messages;
     setMessages((prev) => [...prev, makeMessage("user", option.label)]);
     scrollToBottom();
-    sendToServer({ message: option.label, intentHint: option.intentHint });
+    sendToServer({ message: option.label, intentHint: option.intentHint, historyBefore });
   }
 
   function handleSubmit(e) {
@@ -119,10 +132,11 @@ export default function ChatWidget() {
     if (locked) return;
     const text = input.trim();
     if (!text) return;
+    const historyBefore = messages;
     setMessages((prev) => [...prev, makeMessage("user", text)]);
     setInput("");
     scrollToBottom();
-    sendToServer({ message: text });
+    sendToServer({ message: text, historyBefore });
   }
 
   return (
