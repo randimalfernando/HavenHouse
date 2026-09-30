@@ -53,7 +53,7 @@ export default function PsychologicalForm({ mode, serviceId, initialData }) {
   }
 
     return (
-    <div className="card" style={{ maxWidth: 820 }}>
+    <div className="card">
       <form onSubmit={handleSubmit} noValidate>
         <div className="form-grid">
           <div className="form-field form-grid__full">
