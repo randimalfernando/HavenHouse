@@ -49,7 +49,7 @@ export const faqs = [
     id: "faq-accommodation-how",
     question: "How do I ask about temporary accommodation?",
     answer: "[PLACEHOLDER] Describe the process for enquiring about temporary accommodation.",
-    relatedServiceIds: ["svc-temporary-accommodation"],
+    relatedServiceIds: ["svc-accommodation"],
     category: "service_specific",
     isPublished: true,
   },

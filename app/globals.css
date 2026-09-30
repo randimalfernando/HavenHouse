@@ -1051,3 +1051,15 @@ textarea:focus-visible,
 .image-placeholder--square { aspect-ratio: 1; }
 .image-placeholder--portrait { aspect-ratio: 3 / 4; }
 .image-placeholder--banner { aspect-ratio: 21 / 9; }
+
+.service-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  width: 100%;
+  background: var(--color-surface);
+}
+.service-photo--wide { aspect-ratio: 16 / 9; }
+.service-photo--banner { aspect-ratio: 21 / 9; }
+.service-photo--square { aspect-ratio: 1; }
+.service-photo--portrait { aspect-ratio: 3 / 4; }

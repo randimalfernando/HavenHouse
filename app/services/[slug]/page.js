@@ -5,6 +5,7 @@ import { getEligibilityForService } from "@/content/eligibility";
 import { getFaqsForService } from "@/content/faqs";
 import { getPublishedResources } from "@/content/resources";
 import Accordion from "@/components/Accordion";
+import ServiceCardImage from "@/components/ServiceCardImage";
 
 export function generateStaticParams() {
   return getPublishedServices().map((s) => ({ slug: s.slug }));
@@ -24,7 +25,8 @@ export default function ServiceDetailPage({ params }) {
     <section className="section">
       <div className="container" style={{ maxWidth: 760 }}>
         <p><Link href="/services">← All services</Link></p>
-        <span className="tag">{service.category.replace(/_/g, " ")}</span>
+        <ServiceCardImage slug={service.slug} alt={`${service.name} photo`} ratio="banner" />
+        <span className="tag" style={{ marginTop: "1.25rem" }}>{service.category.replace(/_/g, " ")}</span>
         <h1>{service.name}</h1>
         <p style={{ fontSize: "1.1rem" }}>{service.description}</p>
 
