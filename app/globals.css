@@ -811,19 +811,28 @@ textarea:focus-visible,
 
 .admin-sidebar__logo {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.65rem;
+  text-align: center;
+  gap: 0.75rem;
   text-decoration: none;
   color: var(--color-teal-ink);
+  padding: 0.5rem 0 0.25rem;
+}
+
+.logo-chip--sidebar {
+  padding: 10px 14px;
+  border-radius: 16px;
 }
 
 .admin-sidebar__logo-text {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.05rem;
-  line-height: 1.2;
+  font-size: 1.15rem;
+  line-height: 1.3;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .admin-sidebar__logo-text small {

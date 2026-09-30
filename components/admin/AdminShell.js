@@ -13,8 +13,8 @@ export default function AdminShell({ activeHref, children }) {
     <div className="admin-shell">
       <aside className="admin-sidebar">
         <Link href="/admin/dashboard" className="admin-sidebar__logo">
-          <span className="logo-chip">
-            <Image src="/haven-house-icon.png" alt="" width={36} height={31} />
+          <span className="logo-chip logo-chip--sidebar">
+            <Image src="/logo V3.png" alt="" width={64} height={56} />
           </span>
           <span className="admin-sidebar__logo-text">
             Haven House
