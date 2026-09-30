@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server";
-import { processMessage } from "@/lib/chatEngine";
+import { checkSafetyTrigger, buildSafetyInterruptResponse, buildContactResponse } from "@/lib/chatEngine";
+import { getServiceContext } from "@/lib/chatContext";
+import { getAssistantReply } from "@/lib/llmAssistant";
 
-// This route is fully stateless: it reads only the single incoming request
-// body, computes a response, and returns it. It does not write to a
-// database, file, cache, or log any message content. There is no
-// CHAT_SESSION or CHAT_MESSAGE table anywhere in this codebase.
-
-// Very small in-memory rate limiter (per server instance) since there is no
-// auth layer on this endpoint. Not persisted; resets on server restart.
 const requestLog = new Map();
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 30;
@@ -40,16 +35,35 @@ export async function POST(request) {
     const message = typeof body?.message === "string" ? body.message.slice(0, 1000) : "";
     const intentHint = typeof body?.intentHint === "string" ? body.intentHint : undefined;
 
+    const history = Array.isArray(body?.history)
+      ? body.history
+          .filter((m) => m && typeof m.content === "string" && (m.role === "user" || m.role === "assistant"))
+          .slice(-12)
+          .map((m) => ({ role: m.role, content: m.content.slice(0, 1000) }))
+      : [];
+
     if (!message && !intentHint) {
-      return NextResponse.json(
-        { type: "error", message: "No message provided." },
-        { status: 400 }
-      );
+      return NextResponse.json({ type: "error", message: "No message provided." }, { status: 400 });
     }
 
-    const result = processMessage({ message, intentHint });
-    return NextResponse.json(result);
+    const trigger = checkSafetyTrigger(message);
+    if (trigger) {
+      return NextResponse.json(buildSafetyInterruptResponse(trigger));
+    }
+
+    if (intentHint === "contact") {
+      return NextResponse.json(buildContactResponse());
+    }
+    if (intentHint === "urgent") {
+      return NextResponse.json(buildSafetyInterruptResponse({ category: "request_for_person" }));
+    }
+
+    const serviceContext = await getServiceContext();
+    const reply = await getAssistantReply({ message, history, serviceContext });
+
+    return NextResponse.json({ type: "assistant", message: reply });
   } catch (err) {
+    console.error("[api/chat]", err);
     return NextResponse.json(
       { type: "error", message: "Something went wrong processing that message." },
       { status: 500 }
