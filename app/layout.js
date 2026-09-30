@@ -1,8 +1,20 @@
 import "./globals.css";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
-import CrisisBanner from "@/components/CrisisBanner";
-import ChatWidget from "@/components/ChatWidget";
+import { Fraunces, Atkinson_Hyperlegible } from "next/font/google";
+import SiteChrome from "@/components/SiteChrome";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const atkinson = Atkinson_Hyperlegible({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-atkinson",
+  display: "swap",
+});
 
 export const metadata = {
   title: "Haven House Safe Service Navigation Assistant",
@@ -12,24 +24,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${fraunces.variable} ${atkinson.variable}`}>
       <body>
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
-        <CrisisBanner />
-        <SiteHeader />
-        <main id="main-content">{children}</main>
-        <SiteFooter />
-        <ChatWidget />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

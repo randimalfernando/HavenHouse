@@ -32,6 +32,7 @@ export default function SiteFooter() {
             <li>24/7 crisis line: <a href={`tel:${siteConfig.crisisNumber}`}>{siteConfig.crisisNumber}</a></li>
             <li><Link href="/privacy">Privacy</Link></li>
             <li><Link href="/accessibility">Accessibility</Link></li>
+            <li><Link href="/admin/login">Admin Login</Link></li>
           </ul>
         </div>
       </div>
