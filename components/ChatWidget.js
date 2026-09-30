@@ -101,14 +101,22 @@ export default function ChatWidget() {
     }
 
     if (data.type === "fallback" || data.type === "assistant") {
-      setMessages((prev) => [...prev, makeMessage("assistant", data.message)]);
-      return;
-    }
+  setMessages((prev) => [...prev, makeMessage("assistant", data.message)]);
+  return;
+}
 
-    setMessages((prev) => [
-      ...prev,
-      makeMessage("assistant", "Sorry, I couldn't process that. Please try again."),
-    ]);
+if (data.type === "error") {
+  setMessages((prev) => [
+    ...prev,
+    makeMessage("assistant", data.message || "Something went wrong on our end. Please try again."),
+  ]);
+  return;
+}
+
+setMessages((prev) => [
+  ...prev,
+  makeMessage("assistant", "Sorry, I couldn't process that. Please try again."),
+]);
   }
 
   function handleQuickReply(option) {
