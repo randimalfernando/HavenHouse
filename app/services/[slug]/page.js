@@ -6,6 +6,7 @@ import { getPublishedResources } from "@/content/resources";
 import Accordion from "@/components/Accordion";
 import ServiceCardImage from "@/components/ServiceCardImage";
 import CategoryIcon from "@/components/CategoryIcon";
+import ServiceViewTracker from "@/components/ServiceViewTracker";
 import { getDbServicesForCategory } from "@/lib/publicServiceCategory";
 
 export function generateStaticParams() {
@@ -34,6 +35,11 @@ export default async function ServiceDetailPage({ params }) {
         <p style={{ fontSize: "1.1rem" }}>{service.description}</p>
 
         <h2>Available {service.name} services</h2>
+
+        {dbServices.length > 0 && (
+          <ServiceViewTracker serviceIds={dbServices.map((r) => r.serviceId)} />
+        )}
+
         {dbServices.length === 0 ? (
           <p style={{ opacity: 0.85 }}>
             No services are currently listed in this category. Please check back soon, or

@@ -2,6 +2,10 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import AdminShell from "@/components/admin/AdminShell";
+import { getCategoryCountsForChart } from "@/lib/serviceCategories";
+import { getMostViewedServices } from "@/lib/mostViewedServices";
+import ServicesPerCategoryChart from "@/components/admin/ServicesPerCategoryChart";
+import MostViewedServicesChart from "@/components/admin/MostViewedServicesChart";
 
 export default async function AdminDashboardPage() {
   const session = await getServerSession();
@@ -10,9 +14,11 @@ export default async function AdminDashboardPage() {
     redirect("/admin/login");
   }
 
-  const [adminCount, serviceCount] = await Promise.all([
+  const [adminCount, serviceCount, categoryChartData, mostViewed] = await Promise.all([
     prisma.admin.count(),
     prisma.service.count(),
+    getCategoryCountsForChart(),
+    getMostViewedServices(5),
   ]);
 
   return (
@@ -29,6 +35,11 @@ export default async function AdminDashboardPage() {
           <span className="stat-card__label">Total Services</span>
           <span className="stat-card__value">{serviceCount}</span>
         </div>
+      </div>
+
+      <div className="dashboard-chart-grid">
+        <ServicesPerCategoryChart data={categoryChartData} />
+        <MostViewedServicesChart data={mostViewed} />
       </div>
     </AdminShell>
   );

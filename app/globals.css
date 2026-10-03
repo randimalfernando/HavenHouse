@@ -1140,3 +1140,22 @@ textarea:focus-visible,
   margin: 0;
   text-align: right;
 }
+
+/* ---------------- Dashboard Charts Design ---------------- */
+
+.dashboard-chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 760px) {
+  .dashboard-chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard-chart-card {
+  height: 380px;
+}
