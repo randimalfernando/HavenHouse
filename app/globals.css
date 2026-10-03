@@ -420,6 +420,16 @@ textarea:focus-visible,
   .grid-cols-services { grid-template-columns: repeat(3, 1fr); }
 }
 
+.grid-cols-services .card {
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.grid-cols-services .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  border-color: var(--color-sage-deep);
+}
+
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-sand-deep);
@@ -1063,3 +1073,70 @@ textarea:focus-visible,
 .service-photo--banner { aspect-ratio: 21 / 9; }
 .service-photo--square { aspect-ratio: 1; }
 .service-photo--portrait { aspect-ratio: 3 / 4; }
+
+/* ---------------- DB Services (records) Listing cards designs ---------------- */
+
+.db-service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.db-service-card {
+  background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-bg) 140%);
+  border: 1px solid var(--color-sand-deep);
+  border-top: 3px solid var(--color-sage-deep);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.4rem;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.db-service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--color-sage-deep);
+}
+
+.category-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-sand-deep);
+  color: var(--color-sage);
+  margin-bottom: 0.75rem;
+}
+
+.db-service-card h3 {
+  margin-bottom: 0.4rem;
+}
+
+.db-service-card__desc {
+  margin-bottom: 0.9rem;
+  opacity: 0.9;
+}
+
+.db-service-card__meta {
+  margin: 0;
+}
+
+.db-service-card__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid var(--color-sand-deep);
+  font-size: 0.92rem;
+}
+.db-service-card__row:first-child { border-top: none; }
+
+.db-service-card__row dt {
+  font-weight: 700;
+  opacity: 0.75;
+}
+.db-service-card__row dd {
+  margin: 0;
+  text-align: right;
+}
