@@ -10,15 +10,14 @@ import { services } from "@/content/services";
 // accepts free text.
 
 const NEEDS = [
-  { label: "I need somewhere safe to stay", categories: ["temporary_accommodation", "crisis_support"] },
-  { label: "I'm affected by domestic or family violence", categories: ["dfv", "crisis_support"] },
-  { label: "I'd like mental health support", categories: ["mental_health"] },
-  { label: "I'd like support with alcohol or other drugs", categories: ["addiction"] },
+  { label: "I need somewhere safe to stay", categories: ["accommodation", "crisis_line"] },
+  { label: "I'd like psychological support", categories: ["psychological_support"] },
   { label: "I'm looking for NDIS-related support", categories: ["ndis"] },
   { label: "I'm looking for support for my kids or family", categories: ["hh_kids"] },
   { label: "I'd like pastoral or chaplaincy support", categories: ["chaplaincy"] },
-  { label: "I'm looking for work or employment support", categories: ["employment"] },
-  { label: "I'm affected by antisemitism", categories: ["antisemitism_support"] },
+  { label: "I'm looking for work — the jobs program", categories: ["jobs_program"] },
+  { label: "I'm affected by antisemitism", categories: ["antisemitism_resources"] },
+  { label: "I'd like general social work support", categories: ["social_work"] },
 ];
 
 export default function FindSupportPage() {
