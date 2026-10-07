@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ServiceCard from "@/components/ServiceCard";
 import ImagePlaceholder from "@/components/ImagePlaceholder";
+import HeroImageSlider from "@/components/HeroImageSlider";
 import { getPublishedServices } from "@/content/services";
 import { getPublishedResources } from "@/content/resources";
 import { siteConfig } from "@/lib/siteConfig";
@@ -12,19 +13,22 @@ export default function HomePage() {
   return (
     <>
       <section className="hero">
+        <HeroImageSlider />
         <div className="container hero__inner">
           <div>
             <span className="hero__eyebrow">{siteConfig.orgName} · {siteConfig.suburb}</span>
             <h1>A steady place to find the right support.</h1>
             <p style={{ fontSize: "1.15rem", maxWidth: "48ch" }}>
-              Haven House Safe Service Navigation Assistant helps users find relevant services, view basic eligibility information, and get answers to common questions. If a crisis or safety concern is detected, the chatbot stops normal guidance and displays the approved Haven House contact number.
+              Haven House Safe Service Navigation Assistant helps users find relevant services,
+              view basic eligibility information, and get answers to common questions. If a
+              crisis or safety concern is detected, the chatbot stops normal guidance and
+              displays the approved Haven House contact number.
             </p>
             <div className="hero__actions">
               <Link href="/find-support" className="btn btn-primary">Find Support</Link>
               <a href="#chatbot-entry" className="btn btn-secondary">Talk to our Assistant</a>
             </div>
           </div>
-          <div className="beacon-hero" aria-hidden="true" />
         </div>
       </section>
 
@@ -71,8 +75,8 @@ export default function HomePage() {
       </section>
 
       <section className="section">
-        <div className="container" style={{ display: "grid", gap: "2rem", alignItems: "center" }}>
-          <div style={{ display: "grid", gap: "2rem" }} className="about-grid">
+        <div className="container" style={{ display: "grid", gap: "1.5rem" }}>
+          <div className="about-grid" style={{ display: "grid", gap: "2rem" }}>
             <div>
               <h2>About Haven House</h2>
               <p style={{ maxWidth: "60ch" }}>

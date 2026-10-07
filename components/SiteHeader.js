@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { siteConfig } from "@/lib/siteConfig";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -45,6 +46,7 @@ export default function SiteHeader() {
           <a className="header-help-link" href={`tel:${siteConfig.crisisNumber}`}>
             Need urgent help? Call {siteConfig.crisisNumber}
           </a>
+          <ThemeToggle />
           <button
             className="nav-toggle"
             aria-expanded={open}

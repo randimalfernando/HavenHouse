@@ -39,6 +39,7 @@ model Service {
   contactPhone String?  @map("contact_phone") @db.VarChar(20)
   contactEmail String?  @map("contact_email") @db.VarChar(80)
   locationId   Int      @map("location_id")
+  viewCount    Int      @default(0) @map("view_count")
   location     Location @relation(fields: [locationId], references: [id])
 
   hhKids        HhKidsService?
