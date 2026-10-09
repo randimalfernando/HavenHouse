@@ -127,7 +127,6 @@ model NdisService {
 
   @@map("ndis_service")
 }
-
 model ContactSubmission {
   id        Int      @id @default(autoincrement()) @map("submission_id")
   name      String   @db.VarChar(200)
