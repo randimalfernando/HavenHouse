@@ -39,6 +39,7 @@ model Service {
   contactPhone String?  @map("contact_phone") @db.VarChar(20)
   contactEmail String?  @map("contact_email") @db.VarChar(80)
   locationId   Int      @map("location_id")
+  viewCount    Int      @default(0) @map("view_count")
   location     Location @relation(fields: [locationId], references: [id])
 
   hhKids        HhKidsService?
@@ -125,4 +126,13 @@ model NdisService {
   ndisRegistrationNumber String  @map("ndis_registration_number") @db.VarChar(50)
 
   @@map("ndis_service")
+}
+model ContactSubmission {
+  id        Int      @id @default(autoincrement()) @map("submission_id")
+  name      String   @db.VarChar(200)
+  email     String   @db.VarChar(200)
+  message   String   @db.VarChar(2000)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_submission")
 }
