@@ -8,6 +8,3 @@ out/
 .env.example
 
 .DS_Store
-
-package-lock.json
-package.json
