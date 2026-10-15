@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import LogoutButton from "@/components/admin/LogoutButton";
+import AdminThemeToggle from "@/components/admin/AdminThemeToggle";
 
 const NAV_ITEMS = [
   { href: "/admin/dashboard", label: "Dashboard" },
@@ -9,9 +10,13 @@ const NAV_ITEMS = [
   { href: "/admin/profile", label: "My Profile" },
 ];
 
+// Runs before the page paints: stash the public theme, then apply the admin's own theme (default dark).
+const THEME_BOOT = `(function(){try{var h=document.documentElement;if(window.__hhPublicTheme===undefined){window.__hhPublicTheme=h.getAttribute("data-theme");}var t=localStorage.getItem("hh-admin-theme")==="light"?"light":"dark";h.setAttribute("data-theme",t);}catch(e){}})();`;
+
 export default function AdminShell({ activeHref, children }) {
   return (
     <div className="admin-shell">
+      <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
       <aside className="admin-sidebar">
         <Link href="/admin/dashboard" className="admin-sidebar__logo">
           <span className="logo-chip logo-chip--sidebar">
@@ -37,6 +42,7 @@ export default function AdminShell({ activeHref, children }) {
         </nav>
 
         <div className="admin-sidebar__footer">
+          <AdminThemeToggle />
           <LogoutButton />
         </div>
       </aside>
