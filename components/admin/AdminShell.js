@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { href: "/admin/dashboard", label: "Dashboard" },
   { href: "/admin/register", label: "Register New Admin" },
   { href: "/admin/services", label: "Manage Services" },
+  { href: "/admin/contact-submissions", label: "Contact Messages" },
   { href: "/admin/profile", label: "My Profile" },
 ];
 
