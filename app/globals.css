@@ -964,6 +964,15 @@ textarea:focus-visible,
   color: var(--color-teal-ink);
 }
 
+.page-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
 /* ---------------- Dashboard service category cards ---------------- */
 
 .service-category-grid {

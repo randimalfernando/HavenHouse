@@ -6,6 +6,7 @@ import { getCategoryCountsForChart } from "@/lib/serviceCategories";
 import { getMostViewedServices } from "@/lib/mostViewedServices";
 import ServicesPerCategoryChart from "@/components/admin/ServicesPerCategoryChart";
 import MostViewedServicesChart from "@/components/admin/MostViewedServicesChart";
+import DownloadReportButton from "@/components/admin/DownloadReportButton";
 
 export default async function AdminDashboardPage() {
   const session = await getServerSession();
@@ -23,8 +24,13 @@ export default async function AdminDashboardPage() {
 
   return (
     <AdminShell activeHref="/admin/dashboard">
-      <h1>Dashboard</h1>
-      <p>Welcome back, {session.firstName}.</p>
+      <div className="page-header-row">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Welcome back, {session.firstName}.</p>
+        </div>
+        <DownloadReportButton />
+      </div>
 
       <div className="stat-grid">
         <div className="card stat-card" style={{ "--card-accent": "#5b5ff0" }}>
