@@ -5,16 +5,19 @@ import HeroImageSlider from "@/components/HeroImageSlider";
 import { getPublishedServices } from "@/content/services";
 import { getPublishedResources } from "@/content/resources";
 import { siteConfig } from "@/lib/siteConfig";
+import ServiceSearch from "@/components/ServiceSearch";
+   
 
 export default function HomePage() {
   const services = getPublishedServices();
   const resources = getPublishedResources().slice(0, 2);
 
   return (
-    <>
+    <>   
+       <ServiceSearch />
       <section className="hero">
         <HeroImageSlider />
-        <div className="container hero__inner">
+           <div className="container hero__inner">
           <div>
             <span className="hero__eyebrow">{siteConfig.orgName} · {siteConfig.suburb}</span>
             <h1>A steady place to find the right support.</h1>
