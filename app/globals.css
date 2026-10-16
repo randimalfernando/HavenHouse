@@ -1170,6 +1170,23 @@ textarea:focus-visible,
   height: 380px;
 }
 
+/* ---- Services by state map (append to app/globals.css) ---- */
+.services-map__title { margin: 0 0 1rem; }
+.services-map__body { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+.services-map__svg { flex: 1 1 320px; max-width: 460px; height: auto; color: inherit; }
+.services-map__side { flex: 1 1 200px; min-width: 200px; }
+.services-map__detail { min-height: 7.5rem; font-size: 0.95rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.services-map__detail ul { margin: 0.25rem 0 0; padding-left: 1.1rem; font-size: 0.85rem; opacity: 0.85; }
+.services-map__list { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 0.4rem; }
+.services-map__list li { display: grid; grid-template-columns: 2.6rem 1fr 1.6rem; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+.services-map__code { font-weight: 700; }
+.services-map__bar { height: 8px; border-radius: 99px; background: rgba(128,128,128,0.2); overflow: hidden; }
+.services-map__bar > span { display: block; height: 100%; background: #5b5ff0; border-radius: 99px; }
+.services-map__count { text-align: right; font-weight: 700; }
+.services-map__note { margin: 0.75rem 0 0; font-size: 0.8rem; opacity: 0.75; }
+.services-map { grid-column: 1 / -1; }
+
+
 /* ---------------- Home Page Slider Styles ---------------- */
 .hero {
   position: relative;
