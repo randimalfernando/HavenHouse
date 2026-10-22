@@ -23,9 +23,6 @@ export default async function KnowledgePage() {
 
   return (
     <AdminShell activeHref="/admin/knowledge">
-      <Link href="/admin/dashboard" style={{ display: "inline-block", marginBottom: "0.75rem", opacity: 0.8 }}>
-        ← Back to Dashboard
-      </Link>
 
       <div className="page-header-row">
         <div>
