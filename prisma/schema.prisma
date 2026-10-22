@@ -136,3 +136,13 @@ model ContactSubmission {
 
   @@map("contact_submission")
 }
+
+model KnowledgeDocument {
+  id        Int      @id @default(autoincrement()) @map("document_id")
+  title     String   @db.VarChar(200)
+  content   String   @db.Text
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("knowledge_document")
+}
