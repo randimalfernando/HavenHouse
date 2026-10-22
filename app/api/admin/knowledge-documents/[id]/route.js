@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireApiSession } from "@/lib/auth";
 
 export async function PUT(request, { params }) {
-  const session = await requireApiSession();
+  const session = await requireApiSession(request);
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const id = Number(params.id);
@@ -16,7 +16,7 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
-  const session = await requireApiSession();
+  const session = await requireApiSession(request);
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   await prisma.knowledgeDocument.delete({ where: { id: Number(params.id) } });
