@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { checkSafetyTrigger, buildSafetyInterruptResponse, buildContactResponse } from "@/lib/chatEngine";
 import { getServiceContext } from "@/lib/chatContext";
 import { getAssistantReply } from "@/lib/llmAssistant";
+import { getDocumentContext } from "@/lib/documentContext";
 
 const requestLog = new Map();
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -59,7 +60,8 @@ export async function POST(request) {
     }
 
     const serviceContext = await getServiceContext();
-    const reply = await getAssistantReply({ message, history, serviceContext });
+      const documentContext = await getDocumentContext();
+      const reply = await getAssistantReply({ message, history, serviceContext, documentContext });
 
     return NextResponse.json({ type: "assistant", message: reply });
   } catch (err) {

@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: "/admin/services", label: "Manage Services" },
   { href: "/admin/contact-submissions", label: "Contact Messages" },
   { href: "/admin/profile", label: "My Profile" },
+  { href: "/admin/knowledge", label: "Chatbot Documents" },
 ];
 
 // Runs before the page paints: stash the public theme, then apply the admin's own theme (default dark).
