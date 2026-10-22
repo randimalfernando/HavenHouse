@@ -4,8 +4,10 @@ import { prisma } from "@/lib/prisma";
 import AdminShell from "@/components/admin/AdminShell";
 import { getCategoryCountsForChart } from "@/lib/serviceCategories";
 import { getMostViewedServices } from "@/lib/mostViewedServices";
+import { getServicesByState } from "@/lib/servicesByState";
 import ServicesPerCategoryChart from "@/components/admin/ServicesPerCategoryChart";
 import MostViewedServicesChart from "@/components/admin/MostViewedServicesChart";
+import ServicesByStateMap from "@/components/admin/ServicesByStateMap";
 import DownloadReportButton from "@/components/admin/DownloadReportButton";
 
 export default async function AdminDashboardPage() {
@@ -15,11 +17,12 @@ export default async function AdminDashboardPage() {
     redirect("/admin/login");
   }
 
-  const [adminCount, serviceCount, categoryChartData, mostViewed] = await Promise.all([
+  const [adminCount, serviceCount, categoryChartData, mostViewed, stateData] = await Promise.all([
     prisma.admin.count(),
     prisma.service.count(),
     getCategoryCountsForChart(),
     getMostViewedServices(5),
+    getServicesByState(),
   ]);
 
   return (
@@ -46,6 +49,7 @@ export default async function AdminDashboardPage() {
       <div className="dashboard-chart-grid">
         <ServicesPerCategoryChart data={categoryChartData} />
         <MostViewedServicesChart data={mostViewed} />
+        <ServicesByStateMap data={stateData} />
       </div>
     </AdminShell>
   );

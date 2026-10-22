@@ -14,11 +14,11 @@ export default function HomePage() {
 
   return (
     <>   
-       <ServiceSearch />
       <section className="hero">
         <HeroImageSlider />
            <div className="container hero__inner">
           <div>
+            <ServiceSearch />
             <span className="hero__eyebrow">{siteConfig.orgName} · {siteConfig.suburb}</span>
             <h1>A steady place to find the right support.</h1>
             <p style={{ fontSize: "1.15rem", maxWidth: "48ch" }}>
@@ -30,6 +30,7 @@ export default function HomePage() {
             <div className="hero__actions">
               <Link href="/find-support" className="btn btn-primary">Find Support</Link>
               <a href="#chatbot-entry" className="btn btn-secondary">Talk to our Assistant</a>
+              {/* <ServiceSearch /> */}
             </div>
           </div>
         </div>
