@@ -14,6 +14,25 @@ const OPENING_QUICK_REPLIES = [
   { label: "I need urgent help", intentHint: "urgent" },
 ];
 
+const CATEGORY_REPLIES = [
+  "Crisis Line",
+  "Accommodation",
+  "Psychological Support",
+  "Social Work",
+  "NDIS Services",
+  "HH Kids",
+  "Jobs Program",
+  "Chaplaincy",
+  "Antisemitism Resources",
+];
+
+function shouldShowCategories(message) {
+  if (!message || message.role !== "assistant" || message.variant === "safety") return false;
+  if (message.showCategories) return true;
+  const found = CATEGORY_REPLIES.filter((c) => message.content.includes(c)).length;
+  return found >= 5;
+}
+
 function makeMessage(role, content, extra = {}) {
   return { id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, role, content, ...extra };
 }
@@ -101,30 +120,52 @@ export default function ChatWidget() {
     }
 
     if (data.type === "fallback" || data.type === "assistant") {
-  setMessages((prev) => [...prev, makeMessage("assistant", data.message)]);
-  return;
-}
+      setMessages((prev) => [...prev, makeMessage("assistant", data.message)]);
+      return;
+    }
 
-if (data.type === "error") {
-  setMessages((prev) => [
-    ...prev,
-    makeMessage("assistant", data.message || "Something went wrong on our end. Please try again."),
-  ]);
-  return;
-}
+    if (data.type === "error") {
+      setMessages((prev) => [
+        ...prev,
+        makeMessage("assistant", data.message || "Something went wrong on our end. Please try again."),
+      ]);
+      return;
+    }
 
-setMessages((prev) => [
-  ...prev,
-  makeMessage("assistant", "Sorry, I couldn't process that. Please try again."),
-]);
+    setMessages((prev) => [
+      ...prev,
+      makeMessage("assistant", "Sorry, I couldn't process that. Please try again."),
+    ]);
   }
 
   function handleQuickReply(option) {
     if (locked) return;
+
+    // "I'm looking for a service" is answered here with the category buttons (no server call).
+    if (option.intentHint === "service") {
+      setMessages((prev) => [
+        ...prev,
+        makeMessage("user", option.label),
+        makeMessage("assistant", "What kind of help are you looking for? Choose one below.", {
+          showCategories: true,
+        }),
+      ]);
+      scrollToBottom();
+      return;
+    }
+
     const historyBefore = messages;
     setMessages((prev) => [...prev, makeMessage("user", option.label)]);
     scrollToBottom();
     sendToServer({ message: option.label, intentHint: option.intentHint, historyBefore });
+  }
+
+  function handleCategoryClick(label) {
+    if (locked || loading) return;
+    const historyBefore = messages;
+    setMessages((prev) => [...prev, makeMessage("user", label)]);
+    scrollToBottom();
+    sendToServer({ message: label, historyBefore });
   }
 
   function handleSubmit(e) {
@@ -212,6 +253,23 @@ setMessages((prev) => [
                   onClick={() => handleQuickReply(opt)}
                 >
                   {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {!locked && !loading && shouldShowCategories(messages[messages.length - 1]) && (
+            <div
+              className="chat-quick-replies"
+              style={{ maxHeight: 170, overflowY: "auto" }}
+            >
+              {CATEGORY_REPLIES.map((label) => (
+                <button
+                  key={label}
+                  className="chat-quick-reply"
+                  onClick={() => handleCategoryClick(label)}
+                >
+                  {label}
                 </button>
               ))}
             </div>

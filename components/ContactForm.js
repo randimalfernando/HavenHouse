@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 
+const MAX_MESSAGE = 2000;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Australian-style phone numbers: digits, spaces, +, ( ) and -, 8 to 15 characters
+const PHONE_REGEX = /^[0-9 +()-]{8,15}$/;
+
 export default function ContactForm() {
   const [values, setValues] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
@@ -10,9 +15,23 @@ export default function ContactForm() {
 
   function validate() {
     const next = {};
-    if (!values.name.trim()) next.name = "Please enter your name.";
-    if (!values.email.trim()) next.email = "Please enter an email or phone number.";
-    if (!values.message.trim()) next.message = "Please enter a message.";
+    const name = values.name.trim();
+    const contact = values.email.trim();
+    const message = values.message.trim();
+
+    if (!name) next.name = "Please enter your name.";
+
+    if (!contact) {
+      next.email = "Please enter an email or phone number.";
+    } else if (!EMAIL_REGEX.test(contact) && !PHONE_REGEX.test(contact)) {
+      next.email = "Please enter a valid email address or phone number.";
+    }
+
+    if (!message) {
+      next.message = "Please enter a message.";
+    } else if (message.length > MAX_MESSAGE) {
+      next.message = `Your message must be ${MAX_MESSAGE.toLocaleString()} characters or fewer (currently ${message.length.toLocaleString()}).`;
+    }
     return next;
   }
 
@@ -28,10 +47,14 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          name: values.name.trim(),
+          email: values.email.trim(),
+          message: values.message.trim(),
+        }),
       });
       const data = await res.json();
-      if (data.ok) {
+      if (res.ok && data.ok) {
         setStatus("success");
         setValues({ name: "", email: "", message: "" });
       } else {
@@ -80,8 +103,11 @@ export default function ContactForm() {
           value={values.message}
           onChange={(e) => setValues((v) => ({ ...v, message: e.target.value }))}
           aria-invalid={!!errors.message}
-          aria-describedby={errors.message ? "message-error" : undefined}
+          aria-describedby={errors.message ? "message-error message-count" : "message-count"}
         />
+        <span className="form-hint" id="message-count">
+          {values.message.length.toLocaleString()} / {MAX_MESSAGE.toLocaleString()} characters
+        </span>
         {errors.message && <span className="form-error" id="message-error">{errors.message}</span>}
       </div>
 
