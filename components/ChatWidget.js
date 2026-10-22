@@ -26,6 +26,19 @@ const CATEGORY_REPLIES = [
   "Antisemitism Resources",
 ];
 
+const FAQ_QUESTIONS = [
+  "What can this assistant do?",
+  "Is my conversation saved?",
+  "Are the services free?",
+  "Can I use more than one service?",
+  "How do I contact Haven House?",
+  "What if I'm in danger right now?",
+];
+
+function shouldShowFaqs(message) {
+  return !!message && message.role === "assistant" && message.showFaqs === true;
+}
+
 function shouldShowCategories(message) {
   if (!message || message.role !== "assistant" || message.variant === "safety") return false;
   if (message.showCategories) return true;
@@ -154,6 +167,19 @@ export default function ChatWidget() {
       return;
     }
 
+    // "I have a question" shows common questions as buttons (no server call).
+    if (option.intentHint === "faq") {
+      setMessages((prev) => [
+        ...prev,
+        makeMessage("user", option.label),
+        makeMessage("assistant", "Here are some common questions. Choose one, or type your own below.", {
+          showFaqs: true,
+        }),
+      ]);
+      scrollToBottom();
+      return;
+    }
+
     const historyBefore = messages;
     setMessages((prev) => [...prev, makeMessage("user", option.label)]);
     scrollToBottom();
@@ -166,6 +192,14 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, makeMessage("user", label)]);
     scrollToBottom();
     sendToServer({ message: label, historyBefore });
+  }
+
+  function handleFaqClick(question) {
+    if (locked || loading) return;
+    const historyBefore = messages;
+    setMessages((prev) => [...prev, makeMessage("user", question)]);
+    scrollToBottom();
+    sendToServer({ message: question, historyBefore });
   }
 
   function handleSubmit(e) {
@@ -270,6 +304,23 @@ export default function ChatWidget() {
                   onClick={() => handleCategoryClick(label)}
                 >
                   {label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {!locked && !loading && shouldShowFaqs(messages[messages.length - 1]) && (
+            <div
+              className="chat-quick-replies"
+              style={{ maxHeight: 170, overflowY: "auto" }}
+            >
+              {FAQ_QUESTIONS.map((q) => (
+                <button
+                  key={q}
+                  className="chat-quick-reply"
+                  onClick={() => handleFaqClick(q)}
+                >
+                  {q}
                 </button>
               ))}
             </div>
