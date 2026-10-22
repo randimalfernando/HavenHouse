@@ -2,6 +2,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const field = {
+  width: "100%",
+  boxSizing: "border-box",
+  padding: "0.6rem 0.75rem",
+  borderRadius: 10,
+  border: "1px solid rgba(128,128,160,0.4)",
+  background: "transparent",
+  color: "inherit",
+  font: "inherit",
+};
+
 export default function KnowledgeDocumentForm() {
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -29,20 +40,40 @@ export default function KnowledgeDocumentForm() {
     router.refresh();
   }
 
-  const field = { width: "100%", padding: "0.6rem", borderRadius: 8, border: "1px solid #444", background: "transparent", color: "inherit", font: "inherit" };
-
   return (
-    <form onSubmit={onSubmit} style={{ display: "grid", gap: "0.75rem", maxWidth: 800 }}>
-      <label>
-        Title
+    <form onSubmit={onSubmit} style={{ display: "grid", gap: "0.9rem" }}>
+      <label style={{ display: "grid", gap: 6 }}>
+        <span>Title</span>
         <input style={field} value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} required />
       </label>
-      <label>
-        Content (plain text, max 6000 characters) <span style={{ opacity: 0.7 }}>{content.length}/6000</span>
-        <textarea style={{ ...field, minHeight: 220 }} value={content} onChange={(e) => setContent(e.target.value)} maxLength={6000} required />
+      <label style={{ display: "grid", gap: 6 }}>
+        <span>
+          Content (plain text){" "}
+          <span style={{ opacity: 0.7 }}>{content.length}/6000</span>
+        </span>
+        <textarea
+          style={{ ...field, minHeight: 260, resize: "vertical" }}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          maxLength={6000}
+          required
+        />
       </label>
-      {error && <p style={{ color: "#f87171" }}>{error}</p>}
-      <button type="submit" disabled={saving} style={{ justifySelf: "start", padding: "0.6rem 1.2rem", borderRadius: 8, cursor: "pointer" }}>
+      {error && <p style={{ color: "#f87171", margin: 0 }}>{error}</p>}
+      <button
+        type="submit"
+        disabled={saving}
+        style={{
+          justifySelf: "start",
+          padding: "0.65rem 1.4rem",
+          borderRadius: 999,
+          border: "none",
+          background: "#7c5cff",
+          color: "#fff",
+          fontWeight: 600,
+          cursor: "pointer",
+        }}
+      >
         {saving ? "Saving..." : "Add document"}
       </button>
     </form>
