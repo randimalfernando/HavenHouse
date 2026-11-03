@@ -1673,3 +1673,16 @@ main h1, main h2, main h3, main p, main li, main a { overflow-wrap: anywhere; }
   .chat-launcher { right: 1rem; bottom: 1rem; padding: 0.75rem 1rem; font-size: 0.92rem; }
   .chat-window { right: 0.5rem; bottom: 0.5rem; width: calc(100vw - 1rem); }
 }
+
+@media (max-width: 640px) {
+  .site-header__inner {
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .site-header__logo {
+    white-space: nowrap;
+    font-size: 1.15rem;
+  }
+}
