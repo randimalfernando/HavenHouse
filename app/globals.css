@@ -1536,8 +1536,11 @@ textarea:focus-visible,
   border: 2px solid #cfd3dc;
   border-radius: 999px;
   background: #fff;
-  color: inherit;
+  color: #1b1d2a;
+  caret-color: #1b1d2a;
+  -webkit-text-fill-color: #1b1d2a;
 }
+
 .service-search__input:focus {
   outline: 3px solid rgba(91, 95, 240, 0.35);
   border-color: #5b5ff0;
@@ -1685,4 +1688,10 @@ main h1, main h2, main h3, main p, main li, main a { overflow-wrap: anywhere; }
     white-space: nowrap;
     font-size: 1.15rem;
   }
+}
+
+.service-search__input::placeholder {
+  color: #5f6678;
+  opacity: 1;
+  -webkit-text-fill-color: #5f6678;
 }
