@@ -43,9 +43,6 @@ export default function SiteHeader() {
         </nav>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <a className="header-help-link" href={`tel:${siteConfig.crisisNumber}`}>
-            Need urgent help? Call {siteConfig.crisisNumber}
-          </a>
           <ThemeToggle />
           <button
             className="nav-toggle"
