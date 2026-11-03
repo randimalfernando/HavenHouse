@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { verifyPassword, createSessionToken, SESSION_COOKIE } from "@/lib/auth";
+import {
+  verifyPassword,
+  hashPassword,
+  needsRehash,
+  createSessionToken,
+  SESSION_COOKIE,
+} from "@/lib/auth";
+
+export const runtime = "nodejs";
 
 export async function POST(request) {
   try {
@@ -24,6 +32,19 @@ export async function POST(request) {
     const valid = await verifyPassword(password, admin.passwordHash);
     if (!valid) {
       return NextResponse.json({ ok: false, error: "Incorrect email or password." }, { status: 401 });
+    }
+
+    // Old cost-12 hashes are upgraded to cost 10 on a successful login, so
+    // every later login is faster. Never blocks login if it fails.
+    if (needsRehash(admin.passwordHash)) {
+      try {
+        await prisma.admin.update({
+          where: { id: admin.id },
+          data: { passwordHash: await hashPassword(password) },
+        });
+      } catch (e) {
+        console.error("[admin/login] rehash skipped", e);
+      }
     }
 
     const token = await createSessionToken({
