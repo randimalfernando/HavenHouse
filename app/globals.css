@@ -904,24 +904,124 @@ textarea:focus-visible,
   box-sizing: border-box;
 }
 
+/* Mobile top bar, overlay and close button are hidden on desktop. */
+.admin-topbar,
+.admin-overlay,
+.admin-sidebar__close { display: none; }
+
+/* Tablets and phones: the sidebar becomes a slide-in menu. */
 @media (max-width: 899px) {
-  .admin-shell { flex-direction: column; }
-  .admin-sidebar {
-    width: 100%;
-    flex-direction: row;
+  .admin-shell { display: block; min-height: 100vh; }
+
+  .admin-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    border-right: none;
+    gap: 0.75rem;
+    height: 56px;
+    padding: 0 1rem;
+    background: var(--color-surface);
     border-bottom: 1px solid var(--color-sand-deep);
-    gap: 1rem;
   }
-  .admin-sidebar__nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex: 1;
+
+  .admin-topbar__menu {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-left: -0.5rem;
+    padding: 0;
+    background: transparent;
+    color: var(--color-teal-ink);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
   }
-  .admin-sidebar__footer { border-top: none; padding-top: 0; }
-  .admin-shell__content { padding: 1.5rem 1.25rem; }
+  .admin-topbar__menu:focus-visible { outline: 3px solid rgba(91, 95, 240, 0.5); outline-offset: 2px; }
+
+  .admin-topbar__brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--color-teal-ink);
+    min-width: 0;
+  }
+  .admin-topbar__brand-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    white-space: nowrap;
+  }
+  .admin-topbar__brand-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .admin-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .is-nav-open .admin-overlay { opacity: 1; pointer-events: auto; }
+
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    width: min(82vw, 300px);
+    height: auto;
+    align-self: auto;
+    gap: 1.5rem;
+    border-right: 1px solid var(--color-sand-deep);
+    box-shadow: 8px 0 28px rgba(0, 0, 0, 0.45);
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition: transform 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .is-nav-open .admin-sidebar {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.25s ease, visibility 0s;
+  }
+
+  .admin-sidebar__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    margin: -0.5rem -0.5rem 0 0;
+    padding: 0;
+    background: transparent;
+    color: var(--color-teal-ink);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .admin-sidebar__link { padding: 0.8rem 0.9rem; font-size: 1rem; }
+
+  .admin-shell__content { padding: 1.25rem 1rem 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-overlay,
+  .admin-sidebar { transition: none; }
 }
 
 /* ---------------- Dashboard stat cards ---------------- */
@@ -1065,6 +1165,16 @@ textarea:focus-visible,
 .table-action:hover { text-decoration: underline; }
 
 .table-action--delete { color: var(--color-alert); }
+
+/* Phones: tighter table cells and a scroll hint for wide tables */
+@media (max-width: 600px) {
+  .admin-table th,
+  .admin-table td { padding: 0.7rem 0.75rem; font-size: 0.88rem; }
+  .admin-table-wrap { -webkit-overflow-scrolling: touch; }
+  .page-header-row > * { max-width: 100%; }
+  .stat-grid { max-width: none; }
+  .dashboard-chart-card { height: 340px; }
+}
 .table-action:disabled { opacity: 0.6; cursor: default; }
 
 .image-placeholder--wide { aspect-ratio: 16 / 9; }

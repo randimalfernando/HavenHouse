@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const btn = {
@@ -10,6 +11,8 @@ const btn = {
   cursor: "pointer",
   font: "inherit",
   fontSize: "0.85rem",
+  textDecoration: "none",
+  display: "inline-block",
 };
 
 export default function KnowledgeDocumentActions({ id, isActive }) {
@@ -32,6 +35,9 @@ export default function KnowledgeDocumentActions({ id, isActive }) {
 
   return (
     <span style={{ display: "inline-flex", gap: "0.5rem" }}>
+      <Link href={`/admin/knowledge/${id}`} style={{ ...btn, color: "#a5b4fc", borderColor: "rgba(165,180,252,0.5)" }}>
+        Edit
+      </Link>
       <button type="button" style={btn} onClick={toggle}>{isActive ? "Disable" : "Enable"}</button>
       <button type="button" style={{ ...btn, color: "#fb923c", borderColor: "rgba(251,146,60,0.5)" }} onClick={remove}>Delete</button>
     </span>

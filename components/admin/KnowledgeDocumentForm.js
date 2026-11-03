@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const field = {
@@ -13,10 +14,11 @@ const field = {
   font: "inherit",
 };
 
-export default function KnowledgeDocumentForm() {
+export default function KnowledgeDocumentForm({ doc = null }) {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const editing = Boolean(doc);
+  const [title, setTitle] = useState(doc?.title ?? "");
+  const [content, setContent] = useState(doc?.content ?? "");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -24,20 +26,31 @@ export default function KnowledgeDocumentForm() {
     e.preventDefault();
     setError("");
     setSaving(true);
-    const res = await fetch("/api/admin/knowledge-documents", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, content }),
-    });
+
+    const res = await fetch(
+      editing ? `/api/admin/knowledge-documents/${doc.id}` : "/api/admin/knowledge-documents",
+      {
+        method: editing ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content }),
+      }
+    );
     setSaving(false);
+
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
       setError(data.error || "Could not save the document.");
       return;
     }
-    setTitle("");
-    setContent("");
-    router.refresh();
+
+    if (editing) {
+      router.push("/admin/knowledge");
+      router.refresh();
+    } else {
+      setTitle("");
+      setContent("");
+      router.refresh();
+    }
   }
 
   return (
@@ -48,11 +61,10 @@ export default function KnowledgeDocumentForm() {
       </label>
       <label style={{ display: "grid", gap: 6 }}>
         <span>
-          Content (plain text){" "}
-          <span style={{ opacity: 0.7 }}>{content.length}/6000</span>
+          Content (plain text) <span style={{ opacity: 0.7 }}>{content.length}/6000</span>
         </span>
         <textarea
-          style={{ ...field, minHeight: 260, resize: "vertical" }}
+          style={{ ...field, minHeight: editing ? 420 : 260, resize: "vertical" }}
           value={content}
           onChange={(e) => setContent(e.target.value)}
           maxLength={6000}
@@ -60,22 +72,28 @@ export default function KnowledgeDocumentForm() {
         />
       </label>
       {error && <p style={{ color: "#f87171", margin: 0 }}>{error}</p>}
-      <button
-        type="submit"
-        disabled={saving}
-        style={{
-          justifySelf: "start",
-          padding: "0.65rem 1.4rem",
-          borderRadius: 999,
-          border: "none",
-          background: "#7c5cff",
-          color: "#fff",
-          fontWeight: 600,
-          cursor: "pointer",
-        }}
-      >
-        {saving ? "Saving..." : "Add document"}
-      </button>
+      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+        <button
+          type="submit"
+          disabled={saving}
+          style={{
+            padding: "0.65rem 1.4rem",
+            borderRadius: 999,
+            border: "none",
+            background: "#7c5cff",
+            color: "#fff",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          {saving ? "Saving..." : editing ? "Save changes" : "Add document"}
+        </button>
+        {editing && (
+          <Link href="/admin/knowledge" style={{ opacity: 0.8 }}>
+            Cancel
+          </Link>
+        )}
+      </div>
     </form>
   );
 }

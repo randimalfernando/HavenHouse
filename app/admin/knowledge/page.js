@@ -31,7 +31,7 @@ export default async function KnowledgePage() {
             Approved text the chatbot can use when answering.
           </p>
         </div>
-        <div style={{ minWidth: 220 }}>
+        <div style={{ minWidth: "min(220px, 100%)" }}>
           <div style={{ fontSize: "0.85rem", opacity: 0.8, marginBottom: 4 }}>
             {used} of {MAX_TOTAL_CHARS} characters used
           </div>
@@ -41,7 +41,7 @@ export default async function KnowledgePage() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "1.25rem", alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))", gap: "1.25rem", alignItems: "start" }}>
         <section style={card}>
           <h2 style={{ marginTop: 0, fontSize: "1.15rem" }}>Add a document</h2>
           <KnowledgeDocumentForm />
