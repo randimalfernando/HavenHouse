@@ -6,7 +6,7 @@ import { getPublishedServices } from "@/content/services";
 import { getPublishedResources } from "@/content/resources";
 import { siteConfig } from "@/lib/siteConfig";
 import ServiceSearch from "@/components/ServiceSearch";
-   
+import ResourceCardImage from "@/components/ResourceCardImage";
 
 export default function HomePage() {
   const services = getPublishedServices();
@@ -100,7 +100,7 @@ export default function HomePage() {
           <div className="grid grid-cols-services">
             {resources.map((r) => (
               <article className="card" key={r.id}>
-                <ImagePlaceholder label={`${r.title} image`} ratio="wide" />
+                <ResourceCardImage slug={r.slug} alt={`${r.title} image`} ratio="wide" />
                 <h3>{r.title}</h3>
                 {r.type === "external_link" ? (
                   <a href={r.url} target="_blank" rel="noreferrer">Visit resource ↗</a>
