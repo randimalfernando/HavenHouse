@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -11,8 +11,14 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  // Warm up the dashboard route so the redirect after login feels instant.
+  useEffect(() => {
+    router.prefetch("/admin/dashboard");
+  }, [router]);
+
   async function handleSubmit(e) {
     e.preventDefault();
+    if (submitting) return; // ignore repeat clicks while a login is in flight
     setError("");
     setSubmitting(true);
     try {
@@ -24,13 +30,14 @@ export default function AdminLoginPage() {
       const data = await res.json();
       if (!data.ok) {
         setError(data.error || "Login failed.");
+        setSubmitting(false);
         return;
       }
-      router.push("/admin/dashboard");
-      router.refresh();
+      // Keep the button disabled ("Logging in…") until the dashboard loads,
+      // so it never looks idle and invites a second click.
+      router.replace("/admin/dashboard");
     } catch (err) {
       setError("Something went wrong. Please try again.");
-    } finally {
       setSubmitting(false);
     }
   }
