@@ -1628,7 +1628,7 @@ textarea:focus-visible,
 .about-stat { text-align: center; padding: 1.25rem 1rem; border: 1px solid rgba(128,128,160,0.25); border-radius: 16px; background: rgba(128,128,160,0.07); }
 .about-stat strong { display: block; font-size: 1.9rem; }
 .about-stat span { opacity: 0.8; font-size: 0.9rem; }
-.about-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; align-items: start; }
+.about-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 2rem; align-items: start; }
 .about-grid { display: grid; gap: 1rem; margin-top: 1.25rem; }
 .about-grid--4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .about-grid--3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
@@ -1642,3 +1642,34 @@ textarea:focus-visible,
 .about-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
 .about-cta { text-align: center; padding: 2.5rem 1.5rem; border: 1px solid rgba(128,128,160,0.25); border-radius: 20px; background: rgba(128,128,160,0.07); }
 .about-cta .about-actions { justify-content: center; }
+
+/* ---------------- Mobile hardening (public site) ---------------- */
+html, body { max-width: 100%; overflow-x: clip; }
+
+/* keep the header's side padding (it was being reset to 0) */
+.site-header__inner { padding-left: 1.25rem; padding-right: 1.25rem; }
+
+.site-header__logo { white-space: nowrap; min-width: 0; }
+.card, .grid > *, .container > * { min-width: 0; }
+main h1, main h2, main h3, main p, main li, main a { overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+  .container { padding: 0 1rem; }
+
+  .crisis-banner__inner { font-size: 0.88rem; padding: 0.6rem 1rem; gap: 0.4rem; }
+
+  .site-header__inner { gap: 0.5rem; padding: 0.7rem 1rem; }
+  .site-header__logo { font-size: 1.15rem; gap: 0.5rem; }
+
+  .hero { min-height: auto; padding: 2rem 0 2.5rem; }
+  .hero h1 { font-size: clamp(1.9rem, 8.5vw, 2.4rem); line-height: 1.15; }
+  .hero-slider__overlay {
+    background: linear-gradient(180deg, var(--hero-overlay-from) 0%, var(--hero-overlay-via) 100%);
+  }
+  .hero__actions { flex-direction: column; align-items: stretch; }
+  .hero__actions .btn { width: 100%; }
+
+  .btn { max-width: 100%; }
+  .chat-launcher { right: 1rem; bottom: 1rem; padding: 0.75rem 1rem; font-size: 0.92rem; }
+  .chat-window { right: 0.5rem; bottom: 0.5rem; width: calc(100vw - 1rem); }
+}
